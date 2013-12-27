@@ -209,6 +209,10 @@ describe('fs.test.js', function () {
 
   describe('link(), linkSync(), symlink(), symlinkSync()', function () {
     beforeEach(function (done) {
+      if (!fs.existsSync('./foo/links')) {
+        fs.mkdirSync('./foo/links');
+      }
+
       fs.unlink('foo/links/index.js.link', function () {
         fs.unlink('foo/links/index.js.sync.link', function () {
           done();
