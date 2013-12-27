@@ -5,7 +5,7 @@ nae-fs
 
 [![NPM](https://nodei.co/npm/nae-fs.png?downloads=true&stars=true)](https://nodei.co/npm/nae-fs/)
 
-![logo](https://raw.github.com/fengmk2/nae-fs/master/logo.png)
+![logo](https://raw.github.com/node-app-engine/fs/master/logo.png)
 
 nae file system.
 
@@ -16,7 +16,7 @@ nae file system.
 ## Install
 
 ```bash
-$ npm install nae-fs
+$ npm install nae-fs --registry=http://registry.cnpmjs.org
 ```
 
 ## Usage

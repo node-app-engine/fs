@@ -11,7 +11,7 @@
       "pattern": "//^((?!(node_modules|test)).)*$/"
     },
     "travis-cov": {
-      "threshold": 90
+      "threshold": 100
     }
   },
   "dependencies": {
@@ -26,21 +26,21 @@
     "mocha-lcov-reporter": "*",
     "mocha": "*"
   },
-  "homepage": "https://github.com/node-app-engine/nae-fs",
+  "homepage": "https://github.com/node-app-engine/fs",
   "repository": {
     "type": "git",
-    "url": "git://github.com/node-app-engine/nae-fs.git",
-    "web": "https://github.com/node-app-engine/nae-fs"
+    "url": "git://github.com/node-app-engine/fs.git",
+    "web": "https://github.com/node-app-engine/fs"
   },
   "bugs": {
-    "url": "https://github.com/node-app-engine/nae-fs/issues",
+    "url": "https://github.com/node-app-engine/fs/issues",
     "email": "fengmk2+nae@gmail.com"
   },
   "keywords": [
-    "nae-fs"
+    "nae-fs", "nae", "fs", "node-app-engine", "file system", "sandbox"
   ],
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 0.11.9"
   },
   "author": "fengmk2 <fengmk2@gmail.com> (http://fengmk2.github.com)",
   "license": "MIT"
