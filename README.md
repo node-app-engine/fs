@@ -22,11 +22,13 @@ $ npm install nae-fs
 ## Usage
 
 ```js
-var nae-fs = require('nae-fs');
-
-nae-fs.foo(function (err) {
-
+var fs = require('nae-fs').create({
+  pwd: '/home/nae/app1',
+  limitRoot: '/home/nae/app1'
 });
+
+fs.writeFileSync('foo.txt', 'bar');
+fs.readFileSync('./foo.txt', 'utf8'); // should be 'bar'
 ```
 
 ## License

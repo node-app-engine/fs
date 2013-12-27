@@ -63,6 +63,72 @@ describe('fs.test.js', function () {
     });
   });
 
+  describe('watch()', function () {
+    it('should watch not exists file', function () {
+      (function () {
+        fs.watch('foo/notexists');
+      }).should.throw('watch ENOENT');
+
+      (function () {
+        fs.watch('/roo/foo/notexists');
+      }).should.throw("EACCES, permission denied '/roo/foo/notexists'");
+    });
+
+    it('should watch a exists file', function (done) {
+      done = pedding(3, done);
+      var watcher = fs.watch('foo/watch.js');
+      watcher.on('change', function (event, filename) {
+        done();
+      });
+      fs.writeFile('./foo/watch.js', '', function (err) {
+        should.not.exist(err);
+        fs.writeFile('./foo/watch.js', 'watch', {flag: 'a'}, function (err) {
+          should.not.exist(err);
+          watcher.close();
+
+          // should not emit change event any more.
+          fs.writeFile('./foo/watch.js', 'watch', {flag: 'a'}, function (err) {
+            should.not.exist(err);
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe('watchFile()', function () {
+    it('should watch no permission file', function () {
+      fs.watchFile('foo/notexists', function () {});
+      fs.unwatchFile('foo/notexists');
+
+      (function () {
+        fs.unwatchFile('/roo/foo/notexists', function () {});
+      }).should.throw("EACCES, permission denied '/roo/foo/notexists'");
+
+      (function () {
+        fs.watchFile('/roo/foo/notexists');
+      }).should.throw("EACCES, permission denied '/roo/foo/notexists'");
+    });
+
+    it.skip('should watch a file stat', function (done) {
+      fs.watchFile('./foo/watch.js', function (pre, cur) {
+        console.log(pre, cur)
+      });
+
+      fs.writeFile('./foo/watch.js', '', function (err) {
+        should.not.exist(err);
+        fs.writeFile('./foo/watch.js', 'watch', {flag: 'a'}, function (err) {
+          should.not.exist(err);
+          // should not emit change event any more.
+          fs.writeFile('./foo/watch.js', 'watch', {flag: 'a'}, function (err) {
+            should.not.exist(err);
+            // done();
+          });
+        });
+      });
+    });
+  });
+
   describe('truncate(), truncateSync()', function () {
     beforeEach(function () {
       fs.writeFileSync('foo/truncate.txt', '123456');
@@ -72,11 +138,76 @@ describe('fs.test.js', function () {
     });
 
     it('should truncate with 3', function (done) {
+      fs.truncate('foo/truncate.txt', 3, function (err, result) {
+        should.not.exist(err);
+        fs.readFileSync('foo/truncate.txt', 'utf8').should.equal('123');
+        done();
+      });
+    });
 
+    it('should truncate with 100', function (done) {
+      fs.truncate('foo/truncate.txt', 7, function (err, result) {
+        should.not.exist(err);
+        fs.readFileSync('foo/truncate.txt', 'utf8').should.equal('123456\u0000');
+        done();
+      });
+    });
+
+    it('should truncate permission error', function (done) {
+      (function () {
+        fs.truncateSync('/foo/truncate.txt', 3);
+      }).should.throw("EACCES, permission denied '/foo/truncate.txt'");
+
+      fs.truncate('/foo/truncate.txt', 3, function (err, result) {
+        should.exist(err);
+        err.message.should.equal("EACCES, permission denied '/foo/truncate.txt'");
+        done();
+      });
     });
   });
 
-  describe('link, linkSync, symlink, symlinkSync', function () {
+  describe('createReadStream()', function () {
+    it('should create a read stream', function (done) {
+      var rs = fs.createReadStream('foo/index.js');
+      var datas = [];
+      rs.on('data', function (data) {
+        datas.push(data);
+      });
+      rs.on('end', function () {
+        Buffer.concat(datas).toString().should.equal('test foo/index.js');
+        done();
+      });
+    });
+
+    it('should emit permission error', function (done) {
+      var rs = fs.createReadStream('/root/foo/index.js');
+      rs.on('error', function (err) {
+        err.message.should.equal("EACCES, permission denied '/root/foo/index.js'");
+        done();
+      });
+    });
+  });
+
+  describe('createWriteStream()', function () {
+    it('should create a write stream', function (done) {
+      var ws = fs.createWriteStream('foo/write.js');
+      ws.on('finish', function () {
+        fs.readFileSync('foo/write.js', 'utf8').should.equal('test foo/write.js');
+        done();
+      });
+      ws.end('test foo/write.js');
+    });
+
+    it('should emit permission error', function (done) {
+      var ws = fs.createWriteStream('/root/foo/write.js');
+      ws.on('error', function (err) {
+        err.message.should.equal("EACCES, permission denied '/root/foo/write.js'");
+        done();
+      });
+    });
+  });
+
+  describe('link(), linkSync(), symlink(), symlinkSync()', function () {
     beforeEach(function (done) {
       fs.unlink('foo/links/index.js.link', function () {
         fs.unlink('foo/links/index.js.sync.link', function () {

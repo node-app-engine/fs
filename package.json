@@ -1,6 +1,6 @@
 {
   "name": "nae-fs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "nae file system",
   "main": "index.js",
   "scripts": {
