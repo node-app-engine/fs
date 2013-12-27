@@ -1,7 +1,7 @@
 nae-fs
 =======
 
-[![Build Status](https://secure.travis-ci.org/fengmk2/nae-fs.png)](http://travis-ci.org/fengmk2/nae-fs) [![Coverage Status](https://coveralls.io/repos/fengmk2/nae-fs/badge.png)](https://coveralls.io/r/fengmk2/nae-fs) [![Dependency Status](https://gemnasium.com/fengmk2/nae-fs.png)](https://gemnasium.com/fengmk2/nae-fs)
+[![Build Status](https://secure.travis-ci.org/node-app-engine/fs.png)](http://travis-ci.org/node-app-engine/fs) [![Coverage Status](https://coveralls.io/repos/node-app-engine/fs/badge.png)](https://coveralls.io/r/node-app-engine/fs) [![Dependency Status](https://gemnasium.com/node-app-engine/fs.png)](https://gemnasium.com/node-app-engine/fs)
 
 [![NPM](https://nodei.co/npm/nae-fs.png?downloads=true&stars=true)](https://nodei.co/npm/nae-fs/)
 
