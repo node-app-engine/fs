@@ -306,6 +306,12 @@ describe('fs.test.js', function () {
         fs.renameSync('../../../../../etc/hosts', 'foo/bar/rename_hosts.js');
       }).should.throw("EACCES, permission denied '../../../../../etc/hosts'");
     });
+
+    it('should undefined function pwd works fine', function () {
+      var yafs = require('../').create({
+        limitRoot: path.join(__dirname, 'fixtures'),
+      });
+    });
   });
 
 });
